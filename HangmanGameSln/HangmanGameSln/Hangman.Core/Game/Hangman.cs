@@ -8,14 +8,15 @@ namespace Hangman.Core.Game
         private GallowsRenderer _renderer;
         private string _guessWords;
         private int index;
-        private string charcterGuess;
+        private char charcterGuess;
         private char[] dashedWord;
+        private int numOfLimbs = 6;
 
         public HangmanGame()
         {
             //My list of words(should be 20 or more)
             string[] _list = new string[]
-                { "BURNOUT", "RATCHET", "FREDDY", "CLANK", "CUPHEAD", "MUGMAN", "PAPYRUS", "KNUCKLES"};
+                { "BURNOUT", "RATCHET", "FREDDY", "CLANK", "CUPHEAD", "MUGMAN", "PAPYRUS", "KNUCKLES", "GANONDORF"};
 
             //This will randomize the list
             index = new Random().Next(_list.Length);
@@ -24,31 +25,62 @@ namespace Hangman.Core.Game
             //This converts the string into an character array
             dashedWord = _guessWords.ToCharArray();
 
-            //And this converts each character in the string to a dash
-            for(int i = 0; i < dashedWord.Length; i++)
-            {
-                dashedWord[i] = '-';
-            }
-
             //Renders the gallows
             _renderer = new GallowsRenderer();
+
+            //And this converts each character in the string to a dash
+            //for (int i = 0; i < dashedWord.Length; i++)
+            //{
+            //    dashedWord[i] = '-';
+
+            //    if (charcterGuess == dashedWord[i])
+            //    {
+
+            //    }
+            //    else if (charcterGuess != dashedWord[i])
+            //    {
+            //        numOfLimbs--;
+            //        _renderer.Render(5, 5, 5);
+            //    }
+            //}
+        }
+
+        public void GameLogic()
+        {
+            for (int i = 0; i < dashedWord.Length; i++)
+            {
+                dashedWord[i] = '-';
+
+                if (charcterGuess == dashedWord[i])
+                {
+
+                }
+                else if (charcterGuess != dashedWord[i])
+                {
+                    numOfLimbs--;
+                    _renderer.Render(5, 5, 5);
+                }
+            }
         }
 
         public void Run()
         {
             _renderer.Render(5, 5, 6);
 
-            Console.SetCursorPosition(0, 13);
-            Console.ForegroundColor = ConsoleColor.Blue;
-            Console.Write("Your current guess: ");
-            Console.WriteLine(dashedWord);
-            Console.SetCursorPosition(0, 15);
+            while (numOfLimbs > 0)
+            {
 
-            Console.ForegroundColor = ConsoleColor.Green;
+                Console.SetCursorPosition(0, 13);
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.Write("Your current guess: ");
+                Console.WriteLine(dashedWord);
 
-            Console.Write("What is your next guess: ");
-            var nextGuess = Console.ReadLine();
+                Console.SetCursorPosition(0, 15);
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.Write("What is your next guess: ");
+                charcterGuess = Convert.ToChar(Console.ReadLine());
+                Char.ToUpper(charcterGuess);
+            }
         }
-
     }
 }
