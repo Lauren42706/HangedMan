@@ -6,6 +6,10 @@ namespace Hangman.Core.Game
     public class HangmanGame
     {
         private GallowsRenderer _renderer;
+        private string _guessWords;
+        private int index;
+        private string charcterGuess;
+        private char[] dashedWord;
 
         public HangmanGame()
         {
@@ -14,46 +18,36 @@ namespace Hangman.Core.Game
                 { "BURNOUT", "RATCHET", "FREDDY", "CLANK", "CUPHEAD", "MUGMAN", "PAPYRUS", "KNUCKLES"};
 
             //This will randomize the list
-            int index = new Random().Next(_list.Length);
-            string guessWords = _list[index];
+            index = new Random().Next(_list.Length);
+            _guessWords = _list[index];
 
-            string charcterGuess = "";
+            //This converts the string into an character array
+            dashedWord = _guessWords.ToCharArray();
+
+            //And this converts each character in the string to a dash
+            for(int i = 0; i < dashedWord.Length; i++)
+            {
+                dashedWord[i] = '-';
+            }
 
             //Renders the gallows
             _renderer = new GallowsRenderer();
         }
 
-        public bool isStillAlive()
-        {
-            bool allLimbs = false;
-
-            //if()
-            //{
-            //    return allLimbs;
-            //}
-        }
-
         public void Run()
         {
-            //int limbs = 6;
+            _renderer.Render(5, 5, 6);
 
-            //while (limbs > 0)
-            //{
+            Console.SetCursorPosition(0, 13);
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.Write("Your current guess: ");
+            Console.WriteLine(dashedWord);
+            Console.SetCursorPosition(0, 15);
 
-            //}
+            Console.ForegroundColor = ConsoleColor.Green;
 
-            //_renderer.Render(5, 5, 6);
-
-            //Console.SetCursorPosition(0, 13);
-            //Console.ForegroundColor = ConsoleColor.Blue;
-            //Console.Write("Your current guess: ");
-            //Console.WriteLine("--------------");
-            //Console.SetCursorPosition(0, 15);
-
-            //Console.ForegroundColor = ConsoleColor.Green;
-
-            //Console.Write("What is your next guess: ");
-            //var nextGuess = Console.ReadLine();
+            Console.Write("What is your next guess: ");
+            var nextGuess = Console.ReadLine();
         }
 
     }
