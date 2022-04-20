@@ -9,7 +9,6 @@ namespace Hangman.Core.Game
         private GallowsRenderer _renderer;
         private string _guessWords;
         private int index;
-        private char charcterGuess;
         private string _dashedWord;
         private int numOfLimbs = 6;
         private char[] overWrite;
@@ -37,7 +36,7 @@ namespace Hangman.Core.Game
             }
         }
 
-        public void OverWrite()
+        public void OverWrite(char charcterGuess)
         {
             overWrite = _dashedWord.ToCharArray();
 
@@ -58,7 +57,7 @@ namespace Hangman.Core.Game
         {
             //_renderer.Render(5, 5, 6);
 
-            while (numOfLimbs > 0)
+            while (numOfLimbs > 0 || ReturnDashed() == _dashedWord)
             {
                 Console.SetCursorPosition(0, 13);
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -70,6 +69,10 @@ namespace Hangman.Core.Game
                 Console.Write("What is your next guess: ");
                 string guess = Console.ReadLine();
                 guess = guess.ToUpper();
+
+                OverWrite(guess[0]);
+
+                Console.WriteLine(ReturnDashed());
             }
         }
     }
