@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using HangmanRenderer.Renderer;
 
 namespace Hangman.Core.Game
@@ -11,12 +12,18 @@ namespace Hangman.Core.Game
         private char charcterGuess;
         private char[] dashedWord;
         private int numOfLimbs = 6;
+        private char[] overwritten;
+        private char[] characters;
 
         public HangmanGame()
         {
             //My list of words(should be 20 or more)
             string[] _list = new string[]
-                { "BURNOUT", "RATCHET", "FREDDY", "CLANK", "CUPHEAD", "MUGMAN", "PAPYRUS", "KNUCKLES", "GANONDORF"};
+                { "BURNOUT", "RATCHET", "FREDDY", "CLANK", "CUPHEAD", "MUGMAN", "PAPYRUS", "KNUCKLES", "GANONDORF", "SANS",
+                 "MARIO", "LUIGI", "KRATOS", "ATREUS"};
+
+            characters = new char[] { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+            'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
 
             //This will randomize the list
             index = new Random().Next(_list.Length);
@@ -27,38 +34,17 @@ namespace Hangman.Core.Game
 
             //Renders the gallows
             _renderer = new GallowsRenderer();
-
-            //And this converts each character in the string to a dash
-            //for (int i = 0; i < dashedWord.Length; i++)
-            //{
-            //    dashedWord[i] = '-';
-
-            //    if (charcterGuess == dashedWord[i])
-            //    {
-
-            //    }
-            //    else if (charcterGuess != dashedWord[i])
-            //    {
-            //        numOfLimbs--;
-            //        _renderer.Render(5, 5, 5);
-            //    }
-            //}
         }
 
-        public void GameLogic()
+        public void OverWrite()
         {
-            for (int i = 0; i < dashedWord.Length; i++)
+            
+
+            for(int i = 0; i < dashedWord.Length; i++)
             {
-                dashedWord[i] = '-';
-
-                if (charcterGuess == dashedWord[i])
+                if (dashedWord[i] == characters.Length)
                 {
-
-                }
-                else if (charcterGuess != dashedWord[i])
-                {
-                    numOfLimbs--;
-                    _renderer.Render(5, 5, 5);
+                    overwritten[i] = (char)characters.Length;
                 }
             }
         }
@@ -69,6 +55,11 @@ namespace Hangman.Core.Game
 
             while (numOfLimbs > 0)
             {
+                //And this converts each character in the string to a dash
+                for (int i = 0; i < dashedWord.Length; i++)
+                {
+                    dashedWord[i] = '-';
+                }
 
                 Console.SetCursorPosition(0, 13);
                 Console.ForegroundColor = ConsoleColor.Blue;
